@@ -1,0 +1,59 @@
+$primary-color: #2a2a86;
+$sider-color: #222247;
+$menu-color: rgba(0, 0, 0, 1);
+$secondary-color: #fcaf17;
+$background-color: #f3f3f7;
+$background-color-secondary: #f4f4f7;
+$green: #27ae60;
+$green-secondary: rgba(39, 174, 96, 0.1);
+$text-muted: #666666;
+$gray-f5: #f5f5f5;
+$gray-e5: #e5e5e5;
+$red: #e24343;
+$white: #ffffff;
+$text-body-color: #37394d;
+$text-menu-color: #404040;
+$label-color: #737373;
+$column-header-color: rgba(0, 0, 0, 0.7);
+$placeholder-color: #abb4bd;
+$focus-border-color: #2a2a86;
+$blue-secondary: rgba(42, 42, 134, 0.1);
+$border-color: #ddd;
+$border-secondary-color: #7b61ff;
+$border-radius: 5px;
+$font-size: 14px;
+$font-size-medium: 18px;
+$font-size-large: 20px;
+$mobile-width: 991px;
+$sm-mobile-width: 576px;
+$tablet-width: 992px;
+$desktop-width: 1400px;
+$black: #000000;
+$scoll-bar-table: 12px;
+$border-radius-scoll-bar-table: 12px;
+$link-color: #5656a2;
+$link-color-hover: #1890ff;
+$dangerColor: #e24343;
+@mixin mobile {
+  @media (max-width: #{$mobile-width}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@mixin sm-mobile {
+  @media (max-width: #{$sm-mobile-width}) {
+    @content;
+  }
+}
