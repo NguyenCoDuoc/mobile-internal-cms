@@ -103,3 +103,7 @@
 .icon-daily-revenue:before {
   content: url("assets/icon/tong-ket-ca.svg");
 }
+
+.icon-version:before {
+  content: url("assets/icon/menu-version.svg");
+}

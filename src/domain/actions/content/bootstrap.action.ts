@@ -7,5 +7,7 @@ export const getBootstrapAction = () => {
 };
 
 export const getBootstrapSuccessAction = (data: Partial<BootstrapResponse>) => {
+  console.log("GET_BOOTSTRAP_SUCESSS", data);
+
   return BaseAction(BootstrapType.GET_BOOTSTRAP_SUCESSS, { data: data });
 };

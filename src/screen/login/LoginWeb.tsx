@@ -5,7 +5,6 @@ import "./index.scss";
 import YodyLogo from "assets/img/yody-logo.svg";
 
 type IProps = {
-  callHotlineSupport: () => void;
   onFinish: (values: any) => void;
   loading: boolean;
 };

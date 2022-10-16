@@ -11,19 +11,13 @@ import {
   searchAccountApi,
   getDepartmentAllApi,
   getPositionAllApi,
-  AccountCreateService,
   AccountGetByIdService,
-  AccountUpdateService,
-  AccountDeleteService,
-  accountUpdatePassScreenService,
   getAccountDetail,
-  updateMeService,
   searchAccountPublicApi,
 } from "service/accounts/account.service";
 import { showError } from "utils/ToastUtils";
 import { put } from "redux-saga/effects";
 import { unauthorizedAction } from "domain/actions/auth/auth.action";
-import { callApiSaga } from "utils/ApiUtils";
 
 function* AccountSearchSaga(action: YodyAction) {
   let { query, setData } = action.payload;
@@ -60,97 +54,6 @@ function* AccountGetListSaga(action: YodyAction) {
         break;
     }
   } catch (e) {}
-}
-
-function* AccountCreateSaga(action: YodyAction) {
-  const { request, onCreateSuccess } = action.payload;
-  try {
-    let response: BaseResponse<AccountResponse> = yield call(AccountCreateService, request);
-    switch (response.code) {
-      case HttpStatus.SUCCESS:
-        onCreateSuccess(response.data);
-        break;
-      case HttpStatus.UNAUTHORIZED:
-        yield put(unauthorizedAction());
-        break;
-      default:
-        onCreateSuccess(null);
-        response.errors.forEach((e) => showError(e));
-        break;
-    }
-  } catch (error) {
-    onCreateSuccess(null);
-    console.log("AccountCreateSaga:" + error);
-    // showError("Có lỗi vui lòng thử lại sau");
-  }
-}
-
-function* AccountUpdateSaga(action: YodyAction) {
-  const { id, request, setData } = action.payload;
-  try {
-    let response: BaseResponse<AccountResponse> = yield call(AccountUpdateService, id, request);
-    switch (response.code) {
-      case HttpStatus.SUCCESS:
-        setData(response.data);
-        break;
-      case HttpStatus.UNAUTHORIZED:
-        yield put(unauthorizedAction());
-        break;
-      default:
-        response.errors.forEach((e) => showError(e));
-        break;
-    }
-  } catch (error) {
-    console.log("AccountUpdateSaga:" + error);
-    showError("Có lỗi vui lòng thử lại sau");
-  }
-}
-
-function* AccountUpdatePassSaga(action: YodyAction) {
-  const { request, setData } = action.payload;
-  // try {
-  //   let response: BaseResponse<AccountResponse> = yield call(
-  //     accountUpdatePassScreenService,
-  //     request
-  //   );
-  //   switch (response.code) {
-  //     case HttpStatus.SUCCESS:
-  //       setData(response.data);
-  //       break;
-  //     case HttpStatus.UNAUTHORIZED:
-  //       yield put(unauthorizedAction());
-  //       break;
-  //     default:
-  //       response.errors.forEach((e) => showError(e));
-  //       break;
-  //   }
-  // } catch (error) {
-  //   console.log("AccountUpdatePassScreenService:" + error);
-  //   showError("Có lỗi vui lòng thử lại sau");
-  // }
-  yield callApiSaga({ isShowError: true }, setData, accountUpdatePassScreenService, request);
-}
-function* AccountDeleteSaga(action: YodyAction) {
-  const { id, deleteCallback } = action.payload;
-  try {
-    let response: BaseResponse<any | null> = yield call(AccountDeleteService, id);
-    switch (response.code) {
-      case HttpStatus.SUCCESS:
-        deleteCallback(true);
-        break;
-      case HttpStatus.UNAUTHORIZED:
-        yield put(unauthorizedAction());
-        break;
-      default:
-        deleteCallback(false);
-        response.errors.forEach((e) => showError(e));
-        break;
-    }
-  } catch (error) {
-    deleteCallback(false);
-    console.log("AccountUpdateSaga:" + error);
-    showError("Có lỗi vui lòng thử lại sau");
-  }
 }
 
 function* AccountGetByIdSaga(action: YodyAction) {
@@ -229,27 +132,6 @@ function* getAccountMeSaga(action: YodyAction) {
   }
 }
 
-function* updateMeSaga(action: YodyAction) {
-  const { request, setData } = action.payload;
-  try {
-    let response: BaseResponse<AccountResponse> = yield call(updateMeService, request);
-    switch (response.code) {
-      case HttpStatus.SUCCESS:
-        setData(response.data);
-        break;
-      case HttpStatus.UNAUTHORIZED:
-        yield put(unauthorizedAction());
-        break;
-      default:
-        response.errors.forEach((e) => showError(e));
-        break;
-    }
-  } catch (error) {
-    console.log("MeUpdateSaga:" + error);
-    showError("Có lỗi vui lòng thử lại sau");
-  }
-}
-
 function* searchAccountPublicSaga(action: YodyAction) {
   const { query, onResult } = action.payload;
   try {
@@ -279,11 +161,6 @@ export function* accountSaga() {
   yield takeLatest(AccountType.GET_LIST_DEPARTMENT_REQUEST, DepartmentGetListSaga);
   yield takeLatest(AccountType.GET_LIST_POSITION_REQUEST, PositionGetListSaga);
   yield takeLatest(AccountType.GET_ACCOUNT_DETAIL_REQUEST, AccountGetByIdSaga);
-  yield takeLatest(AccountType.CREATE_ACCOUNT_REQUEST, AccountCreateSaga);
-  yield takeLatest(AccountType.UPDATE_ACCOUNT_REQUEST, AccountUpdateSaga);
-  yield takeLatest(AccountType.UPDATE_PASSS_REQUEST, AccountUpdatePassSaga);
-  yield takeLatest(AccountType.DELETE_ACCOUNT_REQUEST, AccountDeleteSaga);
   yield takeLatest(AccountType.GET_ACCOUNT_ME, getAccountMeSaga);
-  yield takeLatest(AccountType.UPDATE_ME, updateMeSaga);
   yield takeEvery(AccountType.SEARCH_ACCOUNT_PUBLIC, searchAccountPublicSaga);
 }

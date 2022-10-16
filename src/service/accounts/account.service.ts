@@ -20,7 +20,6 @@ export const getAccountDetail = (): Promise<BaseResponse<AccountResponse>> => {
 };
 
 export const loginApi = (request: AuthenRequest): Promise<BaseResponse<LoginResponse>> => {
-  console.log("REACT_APP_ENVIRONMENT", process.env.REACT_APP_ENVIRONMENT);
   return BaseAxios.post(`${ApiConfig.ACCOUNTS}/login`, request);
 };
 

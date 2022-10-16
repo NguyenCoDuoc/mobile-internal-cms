@@ -1,6 +1,8 @@
 import UrlConfig from "config/url.config";
 import { RouteMenu } from "model/other";
-import product from "./product.route";
+import React from "react";
+import setting from "./setting.router";
+const Dashboard = React.lazy(() => import("screen/dashboard"));
 
 const menu: Array<RouteMenu> = [
   {
@@ -8,11 +10,22 @@ const menu: Array<RouteMenu> = [
     exact: true,
     title: "Tổng quan",
     icon: "icon-dashboard",
-    component: product,
+    component: Dashboard,
     key: "1",
     isShow: true,
     header: null,
     subMenu: [],
+  },
+  {
+    path: UrlConfig.SETTINGS,
+    exact: true,
+    title: "Cài đặt",
+    icon: "icon-setting",
+    component: null,
+    key: "2",
+    isShow: true,
+    header: null,
+    subMenu: setting,
   },
 ];
 

@@ -28,8 +28,8 @@ function* loginSaga(action: YodyAction) {
     setLoading(false);
     switch (response.code) {
       case HttpStatus.SUCCESS:
-        setToken(response.data.access_token);
         yield put(loginSuccessAction());
+        setToken(response.data.access_token);
         break;
       default:
         response.errors.forEach((e) => showError(e));

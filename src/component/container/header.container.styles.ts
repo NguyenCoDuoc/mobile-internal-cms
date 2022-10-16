@@ -31,6 +31,7 @@ export const StyledComponent = styled.div`
     }
   }
   .drop-down-button {
+    display: none;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);

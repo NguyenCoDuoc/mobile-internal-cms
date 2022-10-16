@@ -1,21 +1,17 @@
 const UrlConfig = {
   HOME: `/`,
   LOGIN: `/login`,
-  PRODUCT: `/products`,
-  VARIANTS: `/variants`,
-  ACCOUNTS: `/accounts`,
+  SETTINGS: `/settings`,
+  ACCOUNTS: "/accounts",
+  VERSIONS: "/versions",
 };
 
-export const ProductTabUrl = {
-  VARIANTS: UrlConfig.VARIANTS,
-  PRODUCTS: UrlConfig.PRODUCT,
-  PRODUCT_HISTORIES: UrlConfig.PRODUCT + "/histories",
-  HISTORY_PRICES: UrlConfig.PRODUCT + "/prices-history",
-  STAMP_PRINTING_HISTORY: UrlConfig.PRODUCT + "/stamp-printing-history",
+export const SettingUrl = {
+  SETTING: UrlConfig.SETTINGS,
+  VERSIONS: UrlConfig.VERSIONS,
 };
 
 export const AccountUrl = {
-  UPDATE_PASSWORD: `${UrlConfig.ACCOUNTS}/me/update-password`,
   USER_DETAIL: `${UrlConfig.ACCOUNTS}/:code`,
   USER_PERMISSION: `${UrlConfig.ACCOUNTS}/:code/permissions`,
 };

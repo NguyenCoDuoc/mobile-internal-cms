@@ -5,7 +5,6 @@ import { RootReducerType } from "model/reducers/RootReducerType";
 import { loginRequestAction } from "domain/actions/auth/auth.action";
 import { useQuery } from "utils/useQuery";
 import UrlConfig from "config/url.config";
-import { hotlineNumber } from "config/app.config";
 import { LoginWeb } from "./LoginWeb";
 
 const Login = () => {
@@ -13,6 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const userReducer = useSelector((state: RootReducerType) => state.userReducer);
+  console.log("userReducer", userReducer);
 
   const [loading, setLoading] = useState(false);
   let { isLogin } = userReducer;
@@ -22,16 +22,14 @@ const Login = () => {
     },
     [dispatch]
   );
+  console.log("isLogin", isLogin);
+
   if (isLogin) {
     let url = query.get("returnUrl");
     return <Redirect to={url !== null ? url : UrlConfig.HOME} />;
   }
 
-  const callHotlineSupport = () => {
-    window.location.href = `tel:${hotlineNumber}`;
-  };
-
-  return <LoginWeb callHotlineSupport={callHotlineSupport} onFinish={onFinish} loading={loading} />;
+  return <LoginWeb onFinish={onFinish} loading={loading} />;
 };
 
 export default Login;
