@@ -1,5 +1,8 @@
 @import "variable";
 @import "overwrite";
+@import "page-header";
+@import "page-filter";
+@import "table";
 #root {
   width: 100%;
   height: 100%;
@@ -90,7 +93,11 @@
 }
 
 .container {
+  margin-left: 240px;
   transition: all 0.1s;
+  @media screen and (max-width: 1439px) {
+    margin-left: 200px;
+  }
   &.collapsed {
     margin-left: 52px;
   }

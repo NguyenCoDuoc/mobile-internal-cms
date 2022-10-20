@@ -12,7 +12,7 @@ type IProps = {
 export const LoginWeb = (props: IProps) => {
   const { onFinish, loading } = props;
   return (
-    <div className="container">
+    <div className="container-login">
       <div className="login">
         <div className="login-group">
           <div className="login-title">

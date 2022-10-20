@@ -22,7 +22,6 @@ const userReducer = (state = intitalState, action: YodyAction) => {
     case AppType.LOAD_USER_FROM_STORAGE_FAIL:
       return { ...state, isLoad: true };
     case AuthType.LOGIN_RESPONSE:
-      debugger;
       return { ...state, isLogin: true, isLoad: false };
     case AuthType.UNAUTHORIZED_SUCCESS:
     case AuthType.LOGOUT_SUCCESS:

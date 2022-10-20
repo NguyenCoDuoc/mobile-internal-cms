@@ -1,0 +1,73 @@
+// @import "variable";
+.page-header {
+  height: 90px;
+  top: 0;
+  right: 0;
+  left: 255px;
+  background: $background-color;
+  padding: 18px 0px;
+  transition: all 0.1s;
+
+  &-heading {
+    display: flex;
+    justify-content: space-between;
+
+    &-title {
+      font-size: 20px;
+      margin-bottom: 4px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    &-left {
+      width: 100%;
+      .ant-breadcrumb {
+        span {
+          .breadcrumb_hover:hover {
+            color: $primary-color;
+          }
+          .ant-breadcrumb-link {
+            word-break: break-all;
+            color: #222247;
+            a {
+              color: #222247;
+            }
+
+            // &:hover{
+            //   color: $primary-color;
+            //   a{
+            //     color: $primary-color;
+            //   }
+            // }
+          }
+          &:last-child {
+            .ant-breadcrumb-link,
+            a {
+              color: #222222;
+            }
+          }
+        }
+      }
+    }
+
+    &-extra {
+      display: flex;
+      align-items: center;
+    }
+  }
+  @include sm-mobile() {
+    height: auto;
+    padding: 8px 0;
+    &-heading-title {
+      white-space: normal;
+      overflow: visible;
+      font-size: 16px;
+    }
+    &-heading-left {
+      .ant-breadcrumb span .ant-breadcrumb-link {
+        word-break: break-word;
+      }
+    }
+  }
+}

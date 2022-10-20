@@ -1,0 +1,40 @@
+.version {
+  padding: 20px;
+  background: white;
+  .filter {
+    width: 100%;
+    padding: 10px 0px;
+    display: inline-flex;
+    .input-search {
+      flex: 1;
+    }
+    .status {
+      margin-left: 10px;
+    }
+    .filter-button {
+      margin-left: 10px;
+    }
+  }
+  .table {
+    padding-bottom: 20px;
+  }
+  .table .description {
+    min-width: 300px;
+    .description-html {
+      width: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+  .btn-icon {
+    width: 40px;
+  }
+  .action {
+    display: inline-flex;
+    justify-items: center;
+    justify-content: space-between;
+  }
+}

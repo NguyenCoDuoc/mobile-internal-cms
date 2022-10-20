@@ -1,6 +1,6 @@
 import { FC } from "react";
 
 const DashboardScreen: FC = () => {
-  return <>dashboard</>;
+  return <>Chờ anh nhé</>;
 };
 export default DashboardScreen;

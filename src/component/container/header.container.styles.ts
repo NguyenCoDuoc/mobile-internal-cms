@@ -79,5 +79,5 @@ export const StyledComponent = styled.div`
       width: 20px;
       height: 20px;
     }
-  }
+  }c
 `;

@@ -86,4 +86,5 @@ export function getAxiosBase(config: AxiosRequestConfig) {
 }
 
 const BaseAxios = getAxiosBase({ baseURL: AppConfig.baseUrl });
+
 export default BaseAxios;
