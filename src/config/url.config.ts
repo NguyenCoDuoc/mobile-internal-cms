@@ -9,6 +9,9 @@ const UrlConfig = {
 export const SettingUrl = {
   SETTING: UrlConfig.SETTINGS,
   VERSIONS: UrlConfig.VERSIONS,
+  VERSION_CREATE: `${UrlConfig.VERSIONS}/create`,
+  VERSION_DETAIL: `${UrlConfig.VERSIONS}/:id`,
+  VERSION_UPDATE: `${UrlConfig.VERSIONS}/:id/update`,
 };
 
 export const AccountUrl = {

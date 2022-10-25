@@ -15,6 +15,7 @@ export const DATE_FORMAT = {
   HH_MM_SS: "HH:mm:ss",
   HH_mm: "HH:mm",
   MM_DD_YYYY: "MM-DD-YYYY",
+  YYYY_MM_DD_HHmm: "YYYY-MM-DD HH:mm",
 };
 
 export const ConvertUtcToLocalDate = (date?: Date | string | number | null, format?: string) => {

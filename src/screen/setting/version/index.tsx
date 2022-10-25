@@ -1,24 +1,35 @@
 import { Button, Input, Row, Table, TableProps } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { VersionResponse } from "model/version/version.model";
-import { FC, useCallback, useEffect, useState } from "react";
+import { VersionQuery, VersionResponse } from "model/version/version.model";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getVersions } from "service/verions/version.service";
+import { delteVersionApi, getVersions } from "service/verions/version.service";
 import { callApiNative } from "utils/ApiUtils";
 import purify from "dompurify";
 import "./style.scss";
 import VersionStatusCom from "./component/status";
 import SupportOsCom from "./component/supportos";
 import ContentContainer from "component/container/content.container";
-import { PlusOutlined, EditOutlined, DeleteTwoTone, SearchOutlined } from "@ant-design/icons";
-import { showWarning } from "utils/ToastUtils";
+import { EditOutlined, DeleteTwoTone, SearchOutlined } from "@ant-design/icons";
 import CustomPagination from "component/table/CustomPagination";
 import { PageResponse } from "model/base/base-metadata.response";
 import CustomSelect from "component/custom/select.custom";
 import { VersionStatusCon } from "./config";
 import { ConvertUtcToLocalDate, DATE_FORMAT } from "utils/DateUtils";
+import _ from "lodash";
+import ButtonCreate from "component/header/ButtonCreate";
+import { SettingUrl } from "config/url.config";
+import { Link, useHistory } from "react-router-dom";
+import ModalDeleteConfirm from "component/modal/ModalDeleteConfirm";
+import { showSuccess } from "utils/ToastUtils";
 const VersionScreen: FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const [query, setQuery] = useState<VersionQuery>({});
+  const [search, setSearch] = useState<string>();
+  const [status, setStatus] = useState<string>();
+  const [id, setId] = useState<number>(0);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const [data, setData] = useState<PageResponse<VersionResponse>>({
     metadata: {
       limit: 30,
@@ -28,19 +39,33 @@ const VersionScreen: FC = () => {
     items: [],
   });
 
+  const handleAction = {
+    delete: async () => {
+      const res = await callApiNative({ isShowLoading: true }, dispatch, delteVersionApi, id);
+      if (res) {
+        showSuccess("Xóa phiên bản thành công");
+        setConfirmDelete(false);
+        getData(queryParam);
+      }
+    },
+    update: (id: number) => {
+      history.push(`${SettingUrl.VERSIONS}/${id}/update`);
+    },
+  };
+
   const columns: ColumnsType<VersionResponse> = [
     {
       title: "Thao tác",
       align: "center",
-      width: 150,
+      width: 140,
       fixed: "left",
-      render: () => {
+      render: (value, record) => {
         return (
           <div className="action">
             <div>
               <EditOutlined
                 onClick={() => {
-                  showWarning("Tính năng đang phát triển");
+                  handleAction.update(record.id);
                 }}
               />
             </div>
@@ -48,7 +73,8 @@ const VersionScreen: FC = () => {
               <DeleteTwoTone
                 className="btn-icon"
                 onClick={() => {
-                  showWarning("Tính năng đang phát triển");
+                  setId(record.id);
+                  setConfirmDelete(true);
                 }}
                 twoToneColor="#eb2f96"
               />
@@ -77,6 +103,9 @@ const VersionScreen: FC = () => {
       dataIndex: "name",
       width: 120,
       fixed: "left",
+      render: (value, record) => {
+        return <Link to={`${SettingUrl.VERSIONS}/${record.id}`}>{value}</Link>;
+      },
     },
     {
       title: "Tiêu đề",
@@ -98,6 +127,12 @@ const VersionScreen: FC = () => {
           </>
         );
       },
+    },
+    {
+      title: "Version",
+      dataIndex: "version_number",
+      width: 130,
+      align: "center",
     },
     {
       title: "Hệ điều hành",
@@ -139,21 +174,31 @@ const VersionScreen: FC = () => {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  const getData = useCallback(
-    async (page: number, size: number) => {
-      const res = await callApiNative({ isShowLoading: false }, dispatch, getVersions);
-      if (res) {
-        setData(res);
-      }
-    },
-    [dispatch]
-  );
+  const queryParam = useMemo(() => {
+    let res = _.cloneDeep(query);
+    return res;
+  }, [query]);
+
+  const getData = async (q: VersionQuery) => {
+    const res = await callApiNative({ isShowLoading: true }, dispatch, getVersions, q);
+    if (res) {
+      setData(res);
+    }
+  };
 
   useEffect(() => {
-    getData(1, 30);
-  }, [getData]);
+    getData(queryParam);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryParam]);
 
-  const onChangePage = (page: number, pageSize?: number) => {};
+  const onChangePage = (page: number, pageSize?: number) => {
+    let res = { ..._.cloneDeep(query), page: page, limit: pageSize };
+    setQuery(res);
+  };
+
+  const handleSearch = () => {
+    getData({ ...queryParam, search: search, status: status });
+  };
 
   return (
     <ContentContainer
@@ -168,21 +213,18 @@ const VersionScreen: FC = () => {
       ]}
       extra={
         <Row>
-          <Button
-            type="primary"
-            className="ant-btn-primary"
-            size="large"
-            onClick={() => {
-              showWarning("Tính năng đang phát triển");
-            }}
-            icon={<PlusOutlined className="ant-btn-primary-icon" />}>
-            Thêm phiên bản
-          </Button>
+          <ButtonCreate children="Thêm phiên bản" path={`${SettingUrl.VERSION_CREATE}`} />
         </Row>
       }>
       <div className="version">
         <div className="filter">
-          <Input className="input-search" placeholder="Tên / Tiêu đề / Mô tả" />
+          <Input
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            className="input-search"
+            placeholder="Tên / Tiêu đề / Mô tả"
+          />
           <CustomSelect
             className="status"
             showSearch
@@ -191,6 +233,7 @@ const VersionScreen: FC = () => {
             placeholder="Chọn trạng thái"
             optionFilterProp="children"
             getPopupContainer={(trigger) => trigger.parentNode}
+            onChange={setStatus}
             maxTagCount="responsive">
             {VersionStatusCon?.map((item) => (
               <CustomSelect.Option key={item.key} value={item.key}>
@@ -202,9 +245,7 @@ const VersionScreen: FC = () => {
             type="primary"
             className="ant-btn-primary filter-button"
             size="small"
-            onClick={() => {
-              showWarning("Tính năng đang phát triển");
-            }}
+            onClick={handleSearch}
             icon={<SearchOutlined className="ant-btn-primary-icon" />}>
             Tìm kiếm
           </Button>
@@ -229,6 +270,13 @@ const VersionScreen: FC = () => {
           }}
         />
       </div>
+      <ModalDeleteConfirm
+        onCancel={() => setConfirmDelete(false)}
+        onOk={handleAction.delete}
+        title="Xác nhận xóa"
+        subTitle="Bạn có chắc muốn xóa phiên bản này không?"
+        visible={confirmDelete}
+      />
     </ContentContainer>
   );
 };

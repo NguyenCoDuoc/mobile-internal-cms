@@ -1,7 +1,7 @@
 import UrlConfig from "config/url.config";
 import { RouteMenu } from "model/other";
 import React from "react";
-import setting from "./setting.router";
+import setting_router from "./setting.router";
 const Dashboard = React.lazy(() => import("screen/dashboard"));
 
 const menu: Array<RouteMenu> = [
@@ -25,7 +25,7 @@ const menu: Array<RouteMenu> = [
     key: "2",
     isShow: true,
     header: null,
-    subMenu: setting,
+    subMenu: setting_router,
   },
 ];
 

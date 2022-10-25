@@ -1,7 +1,5 @@
 import { Avatar, Badge, Button, Dropdown, Layout, Menu, Space } from "antd";
-import devEnvMarkup from "assets/img/dev-env-markup.png";
 import logo from "assets/img/logo.svg";
-import uatEnvMarkup from "assets/img/uat-env-markup.png";
 import logoDev from "assets/img/yody-logo-dev.svg";
 import logoUat from "assets/img/yody-logo-uat.svg";
 import { AppConfig } from "config/app.config";
@@ -26,9 +24,6 @@ const HeaderContainer: React.FC<HeaderContainerProps> = (props: HeaderContainerP
   const myFullname = useSelector((state: RootReducerType) => state.userReducer.account?.full_name);
 
   const dispatch = useDispatch();
-  const [isShowBtnDD, setIsShowBtnDD] = useState<boolean>(true);
-  const [isTabletMobileScreen, setIsTabletMobileScreen] = useState<boolean>(false);
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
   const [firstCharName, setFirstCharName] = useState<string>("");
 
   useEffect(() => {
@@ -61,21 +56,6 @@ const HeaderContainer: React.FC<HeaderContainerProps> = (props: HeaderContainerP
       </Menu.Item>
     </Menu>
   );
-
-  window.onresize = () => {
-    setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    if (
-      screenWidth < 900 ||
-      ((AppConfig.ENV === "DEV" || AppConfig.ENV === "UAT") && screenWidth < 1100)
-    ) {
-      setIsTabletMobileScreen(true);
-    } else {
-      setIsTabletMobileScreen(false);
-    }
-  }, [screenWidth]);
 
   return (
     <StyledComponent>
@@ -115,21 +95,19 @@ const HeaderContainer: React.FC<HeaderContainerProps> = (props: HeaderContainerP
             </Dropdown>
           </Space>
         </div>
-        {isShowBtnDD && (
-          <div className="drop-down-button">
-            <Button
-              onClick={() => props.setIsShowHeader(!props.isShowHeader)}
-              className="button-menu-collapse"
-              icon={
-                props.isShowHeader ? (
-                  <AiOutlineCaretUp color={"black"} size={20} />
-                ) : (
-                  <AiOutlineCaretDown color={"black"} size={20} />
-                )
-              }
-            />
-          </div>
-        )}
+        <div className="drop-down-button">
+          <Button
+            onClick={() => props.setIsShowHeader(!props.isShowHeader)}
+            className="button-menu-collapse"
+            icon={
+              props.isShowHeader ? (
+                <AiOutlineCaretUp color={"black"} size={20} />
+              ) : (
+                <AiOutlineCaretDown color={"black"} size={20} />
+              )
+            }
+          />
+        </div>
       </Layout.Header>
     </StyledComponent>
   );

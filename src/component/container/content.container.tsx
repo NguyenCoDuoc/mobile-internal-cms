@@ -25,8 +25,7 @@ const ContentContainer: React.FC<ContentContainerProps> = (props: ContentContain
               onClick={() => {
                 history.goBack();
               }}
-              type="primary"
-            >
+              type="primary">
               Trở về
             </Button>
           }

@@ -1,0 +1,62 @@
+@import "variable";
+.modal-confirm {
+  @include sm-mobile() {
+    width: 100% !important;
+  }
+  &-container {
+    display: flex;
+    flex-direction: row;
+  }
+  &-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  &-right {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  &-title {
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+  }
+  &-sub-title {
+    font-weight: normal;
+    font-size: 14px;
+    color: rgba(32, 32, 32, 0.9);
+    opacity: 0.6;
+  }
+}
+
+.ant-modal-confirm-content {
+  .yody-modal-confirm-list-code {
+    display: flex;
+    line-height: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-top: 7px;
+    .yody-modal-confirm-item-code {
+      margin-left: 10px;
+      font-weight: 500;
+    }
+  }
+  .yody-modal-warning {
+    text-align: justify;
+    color: rgb(255, 77, 79);
+  }
+  .yody-modal {
+    p {
+      margin-bottom: 0.5em;
+    }
+    .notification-detail {
+      max-height: 415px;
+      overflow: auto;
+    }
+  }
+}
